@@ -1,8 +1,35 @@
-<h1>New Book</h1>
-  <%= form_with model: @book do |f| %>
-    <h4>Title</h4>
-      <%= f.text_field :title %>
-    <h4>Opinion</h4>
-      <%= f.text_area :body %>
-    <%= f.submit 'Create Book' %>
-  <% end %>
+<div class="container px-5 px-sm-0">
+  <div class="row">
+    <div class="col-md-3">
+      <%= render 'books/error', model: @book %>
+      <%= render 'users/user', user: @user %>
+      <%= render 'books/book', book: @newbook %>
+    </div>
+      <%= render 'books/error', model: @book %>
+      <div class="col-md-8 offset-md-1">
+      <h2>Book detail</h2>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>
+                <%= link_to user_path(@book.user.id) do %>
+                　<%= image_tag @book.user.get_profile_image(100, 100) %><br>
+                  <%= @book.user.name %>
+              　<% end %>
+              </td>
+              <td>
+                <%= link_to @user.name, user_path(@user) %>
+              </td>
+              <td><%= @book.title %></td>
+              <td><%= @book.body %></td>
+              <% if @book.user_id == current_user.id %>
+              <td><%= link_to "Edit", edit_book_path(@book), class:"btn btn-success"%></td>
+              <td><%= link_to "Destroy", book_path(@book), method: :delete, data: {confirm: "本当に消しますか？"}, class:"btn btn-sm btn-danger" %></td>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
